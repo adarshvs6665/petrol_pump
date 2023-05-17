@@ -1,30 +1,11 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-/**
-  This file is used for controlling the global states of the components,
-  you can customize the states for the different components here.
-*/
-
-import { createContext, useContext, useReducer, useMemo } from "react";
+import { createContext, useContext, useReducer, useMemo, useState, useEffect } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
 // Material Dashboard 2 React main context
 const MaterialUI = createContext();
+const AuthContext = createContext();
 
 // Setting custom name for the context which is visible on react dev tools
 MaterialUI.displayName = "MaterialUIContext";
@@ -120,6 +101,36 @@ const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value })
 const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
 
+function AuthProvider({ children }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check local storage for logged-in status
+  useEffect(() => {
+    const storedLoggedInStatus = localStorage.getItem("isLoggedIn");
+    setIsLoggedIn(storedLoggedInStatus === "true");
+  }, []);
+
+  // Function to handle login
+  const login = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem("isLoggedIn", "true");
+  };
+
+  // Function to handle logout
+  const logout = () => {
+    setIsLoggedIn(false);
+    localStorage.setItem("isLoggedIn", "false");
+  };
+
+  return (
+    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>{children}</AuthContext.Provider>
+  );
+}
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 export {
   MaterialUIControllerProvider,
   useMaterialUIController,
@@ -133,4 +144,6 @@ export {
   setDirection,
   setLayout,
   setDarkMode,
+  AuthProvider,
+  AuthContext,
 };

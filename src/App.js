@@ -30,12 +30,23 @@ import { useMaterialUIController } from "context";
 
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import ProtectedRoute from "routes/ProtectedRoute";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
   // const { sidenavColor, transparentSidenav, whiteSidenav, darkMode } = controller;
   // const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
+
+  const [userLogged, setUserLogged] = useState(JSON.parse(localStorage.getItem("userLogged")));
+
+  useEffect(() => {
+    localStorage.setItem("userLogged", JSON.stringify(userLogged));
+  }, [userLogged]);
+
+  const signIn = () => setUserLogged(true);
+  const signOut = () => setUserLogged(false);
 
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
@@ -52,23 +63,13 @@ export default function App() {
   return (
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
-
-      {/* <Sidenav
-        color={sidenavColor}
-        brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-        brandName="Material Dashboard 2"
-        routes={routes}
-        // onMouseEnter={handleOnMouseEnter}
-        // onMouseLeave={handleOnMouseLeave}
-      /> */}
-      {/* <Configurator /> */}
-      {/* {configsButton} */}
-
       <Routes>
-        {getRoutes(routes)}
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="/sign-in" element={<SignIn signIn={signIn} signOut={signOut} />} />
+        <Route element={<ProtectedRoute />}>
+          {getRoutes(routes)}
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+        </Route>
       </Routes>
     </ThemeProvider>
   );
