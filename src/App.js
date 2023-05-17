@@ -31,22 +31,10 @@ import { useMaterialUIController } from "context";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import ProtectedRoute from "routes/ProtectedRoute";
-import { useEffect, useState } from "react";
 
 export default function App() {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
-  // const { sidenavColor, transparentSidenav, whiteSidenav, darkMode } = controller;
-  // const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
-
-  const [userLogged, setUserLogged] = useState(JSON.parse(localStorage.getItem("userLogged")));
-
-  useEffect(() => {
-    localStorage.setItem("userLogged", JSON.stringify(userLogged));
-  }, [userLogged]);
-
-  const signIn = () => setUserLogged(true);
-  const signOut = () => setUserLogged(false);
 
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
@@ -64,7 +52,7 @@ export default function App() {
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
       <Routes>
-        <Route path="/sign-in" element={<SignIn signIn={signIn} signOut={signOut} />} />
+        <Route path="/sign-in" element={<SignIn />} />
         <Route element={<ProtectedRoute />}>
           {getRoutes(routes)}
           <Route path="/sign-up" element={<SignUp />} />

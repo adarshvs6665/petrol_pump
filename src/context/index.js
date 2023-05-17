@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useMemo, useState, useEffect } from "react";
+import { createContext, useContext, useReducer, useMemo } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -101,36 +101,6 @@ const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value })
 const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
 
-function AuthProvider({ children }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // Check local storage for logged-in status
-  useEffect(() => {
-    const storedLoggedInStatus = localStorage.getItem("isLoggedIn");
-    setIsLoggedIn(storedLoggedInStatus === "true");
-  }, []);
-
-  // Function to handle login
-  const login = () => {
-    setIsLoggedIn(true);
-    localStorage.setItem("isLoggedIn", "true");
-  };
-
-  // Function to handle logout
-  const logout = () => {
-    setIsLoggedIn(false);
-    localStorage.setItem("isLoggedIn", "false");
-  };
-
-  return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>{children}</AuthContext.Provider>
-  );
-}
-
-AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
 export {
   MaterialUIControllerProvider,
   useMaterialUIController,
@@ -144,6 +114,5 @@ export {
   setDirection,
   setLayout,
   setDarkMode,
-  AuthProvider,
   AuthContext,
 };

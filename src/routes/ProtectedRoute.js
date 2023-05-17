@@ -1,13 +1,15 @@
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 // import { AuthContext } from "context";
 // import { useContext } from "react";
+// hooks
+import useAuth from "hooks";
 
 const ProtectedRoute = () => {
   const location = useLocation(); // current location
+  const { auth } = useAuth();
+  console.log(auth);
 
-  const userLogged = JSON.parse(localStorage.getItem("userLogged"));
-
-  return userLogged ? (
+  return auth.authenticated ? (
     <Outlet />
   ) : (
     <Navigate
