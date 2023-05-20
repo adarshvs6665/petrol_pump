@@ -3,6 +3,10 @@ import { useEffect } from "react";
 // react-router-dom components
 import { useLocation, NavLink } from "react-router-dom";
 
+// icon
+import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
+import LocalGasStationRoundedIcon from '@mui/icons-material/LocalGasStationRounded';
+
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
 
@@ -32,6 +36,7 @@ import {
     setWhiteSidenav,
 } from "context";
 import useAuth from "hooks";
+import { IconButton } from "@mui/material";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
     const [controller, dispatch] = useMaterialUIController();
@@ -184,12 +189,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
                     alignItems="center"
                 >
                     {brand && (
-                        <MDBox
-                            component="img"
-                            src={brand}
-                            alt="Brand"
-                            width="2rem"
-                        />
+                        <IconButton color="white"><LocalGasStationRoundedIcon/></IconButton>
                     )}
                     <MDBox
                         width={!brandName && "100%"}
