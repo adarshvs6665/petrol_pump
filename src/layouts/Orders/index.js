@@ -22,17 +22,14 @@ import MDBadge from "components/MDBadge";
 import { Box, IconButton } from "@mui/material";
 
 // icons
-import CloseIcon from "@mui/icons-material/Close";
-import DoneIcon from "@mui/icons-material/Done";
 import { useRejectOrderMutation } from "api/useRejectOrderMutation";
-import { useQueryClient } from "react-query";
 
 function Tables() {
     const { auth } = useAuth();
 
     const [col, setCol] = useState([]);
     const [row, setRow] = useState([]);
-    const { data, isLoading, isSuccess, isError, error, refetch } =
+    const { data, isSuccess, isError, error, refetch } =
         useFetchOrdersQuery(auth.user.pumpOwnerId);
     const {
         data: rejectData,
