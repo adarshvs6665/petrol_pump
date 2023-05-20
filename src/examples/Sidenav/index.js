@@ -31,12 +31,14 @@ import {
   setTransparentSidenav,
   setWhiteSidenav,
 } from "context";
+import useAuth from "hooks";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
+  const { setAuth } = useAuth();
 
   let textColor = "white";
 
@@ -125,6 +127,11 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     return returnValue;
   });
 
+  const handleClick = () => {
+    const data = { authenticated: false };
+    localStorage.setItem("user", JSON.stringify(data));
+    setAuth(data);
+  };
   return (
     <SidenavRoot
       {...rest}
@@ -172,6 +179,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           variant="gradient"
           color={sidenavColor}
           fullWidth
+          onClick={handleClick}
         >
           Sign Out
         </MDButton>

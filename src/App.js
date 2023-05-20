@@ -53,9 +53,9 @@ export default function App() {
       <CssBaseline />
       <Routes>
         <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route element={<ProtectedRoute />}>
           {getRoutes(routes)}
-          <Route path="/sign-up" element={<SignUp />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
         </Route>
       </Routes>

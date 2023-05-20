@@ -19,11 +19,11 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
-// import useAuth from "hooks";
+import useAuth from "hooks";
 
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
-  // const { setAuth } = useAuth();
+  const { setAuth } = useAuth();
 
   // useEffect(() => {
   //   const data = { authenticated: false };
@@ -34,9 +34,9 @@ function Basic() {
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
   const handleSignIn = () => {
-    // const data = { authenticated: true };
-    // localStorage.setItem("user", JSON.stringify(data));
-    // setAuth(data);
+    const data = { authenticated: true };
+    localStorage.setItem("user", JSON.stringify(data));
+    setAuth(data);
   };
   return (
     <BasicLayout image={bgImage}>
