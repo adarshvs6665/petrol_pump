@@ -32,33 +32,49 @@ import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import ProtectedRoute from "routes/ProtectedRoute";
 
+// use-query
+import { QueryClient, QueryClientProvider } from "react-query";
+
 export default function App() {
-  const [controller] = useMaterialUIController();
-  const { darkMode } = controller;
+    const [controller] = useMaterialUIController();
+    const { darkMode } = controller;
 
-  const getRoutes = (allRoutes) =>
-    allRoutes.map((route) => {
-      if (route.collapse) {
-        return getRoutes(route.collapse);
-      }
+    const getRoutes = (allRoutes) =>
+        allRoutes.map((route) => {
+            if (route.collapse) {
+                return getRoutes(route.collapse);
+            }
 
-      if (route.route) {
-        return <Route exact path={route.route} element={route.component} key={route.key} />;
-      }
+            if (route.route) {
+                return (
+                    <Route
+                        exact
+                        path={route.route}
+                        element={route.component}
+                        key={route.key}
+                    />
+                );
+            }
 
-      return null;
-    });
-  return (
-    <ThemeProvider theme={darkMode ? themeDark : theme}>
-      <CssBaseline />
-      <Routes>
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route element={<ProtectedRoute />}>
-          {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/dashboard" />} />
-        </Route>
-      </Routes>
-    </ThemeProvider>
-  );
+            return null;
+        });
+    const queryClient = new QueryClient();
+    return (
+        <QueryClientProvider client={queryClient}>
+            <ThemeProvider theme={darkMode ? themeDark : theme}>
+                <CssBaseline />
+                <Routes>
+                    <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/sign-up" element={<SignUp />} />
+                    <Route element={<ProtectedRoute />}>
+                        {getRoutes(routes)}
+                        <Route
+                            path="*"
+                            element={<Navigate to="/dashboard" />}
+                        />
+                    </Route>
+                </Routes>
+            </ThemeProvider>
+        </QueryClientProvider>
+    );
 }
