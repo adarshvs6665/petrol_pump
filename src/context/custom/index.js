@@ -6,9 +6,9 @@ const user = JSON.parse(localStorage.getItem("user") || "{}");
 const AuthProviderDefaultValues = {
     auth: {
         authenticated: user.authenticated || false,
+        user: user.user || {},
     },
     setAuth: () => {},
-    user: {},
 };
 export const AuthContext = createContext(AuthProviderDefaultValues);
 

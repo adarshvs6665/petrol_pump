@@ -7,7 +7,6 @@ import useAuth from "hooks";
 const ProtectedRoute = () => {
   const location = useLocation(); // current location
   const { auth } = useAuth();
-  console.log(auth);
 
   return auth.authenticated ? (
     <Outlet />

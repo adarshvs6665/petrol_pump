@@ -41,9 +41,9 @@ function Basic() {
     useEffect(() => {
         if (isSuccess) {
             console.log(data.data);
-            const auth = { authenticated: true, user: data.data };
-            localStorage.setItem("user", JSON.stringify(auth));
-            setAuth(auth);
+            const newAuth = { authenticated: true, user: data.data };
+            localStorage.setItem("user", JSON.stringify(newAuth));
+            setAuth(newAuth);
             navigate("/dashboard");
         }
 
@@ -77,7 +77,7 @@ function Basic() {
             onClose={closeErrorSB}
             close={closeErrorSB}
             bgWhite
-            dateTime="now"
+            dateTime=""
         />
     );
 

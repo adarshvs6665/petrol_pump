@@ -17,8 +17,15 @@ import SidenavCustom from "examples/CustomSideNav";
 
 // Overview page components
 import Header from "layouts/profile/components/Header";
+import useAuth from "hooks";
+import { useEffect } from "react";
 
 function Overview() {
+  const { auth } = useAuth();
+  useEffect(() => {
+    console.log(auth.user.pumpOwnerId);
+  })
+  
   return (
     <>
       <SidenavCustom />
@@ -37,6 +44,7 @@ function Overview() {
                     Mobile: "+91 9544543210",
                     Email: "example@gmail.com",
                     Location: "Poojappura",
+                    "Location Name": "Poojappura"
                   }}
                   social={[
                     {
