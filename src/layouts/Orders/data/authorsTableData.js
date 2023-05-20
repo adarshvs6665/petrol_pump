@@ -21,14 +21,23 @@ import useAuth from "hooks";
 
 export default function data(data, handleAccept, handleReject) {
     const rows = data.map((item) => {
+        console.log(item);
         const isRejected = item.rejected;
+        const isAccepted = item.accepted;
 
         const handleAcceptClick = () => {
-          handleAccept(item.orderId);
+            handleAccept(item.orderId);
         };
-    
+
         const handleRejectClick = () => {
-          handleReject(item.orderId);
+            handleReject(item.orderId);
+        };
+
+        const getColor = () => {
+            if (isRejected) return "dark";
+            else if (item.status == "PENDING") return "warning";
+            else if (item.status == "DELIVERY") return "primary";
+            else if (item.status == "COMPLETED") return "success";
         };
 
         return {
@@ -64,12 +73,35 @@ export default function data(data, handleAccept, handleReject) {
                 >
                     {new Date().toLocaleDateString()}{" "}
                 </MDTypography>
+            ),orderQuantity: (
+                <MDTypography
+                    component="a"
+                    href="#"
+                    variant="caption"
+                    color="text"
+                    fontWeight="medium"
+                >
+                    {item.item.quantity}
+                </MDTypography>
+            ),
+            orderAmount: (
+                <MDTypography
+                    component="a"
+                    href="#"
+                    variant="caption"
+                    color="text"
+                    fontWeight="medium"
+                >
+                    {item.item.price + " ₹"}
+                </MDTypography>
             ),
             orderStatus: (
                 <MDBox ml={-1}>
+                    {/* {console.log(isRejected)}
+                    {console.log(item.status == "PENDING")} */}
                     <MDBadge
-                        badgeContent={isRejected?"REJECTED":item.status}
-                        color={isRejected ? "dark" : "warning"}
+                        badgeContent={isRejected ? "REJECTED" : item.status}
+                        color={getColor()}
                         variant="gradient"
                         size="sm"
                     />
@@ -80,7 +112,7 @@ export default function data(data, handleAccept, handleReject) {
                     <IconButton
                         aria-label="delete"
                         color="primary"
-                        disabled={isRejected}
+                        disabled={isRejected || item.status != "PENDING"}
                         onClick={handleRejectClick}
                     >
                         <CloseIcon />
@@ -88,7 +120,7 @@ export default function data(data, handleAccept, handleReject) {
                     <IconButton
                         aria-label="delete"
                         color="success"
-                        disabled={isRejected}
+                        disabled={isRejected || item.status != "PENDING"}
                         onClick={handleAcceptClick}
                     >
                         <DoneIcon />
@@ -103,6 +135,8 @@ export default function data(data, handleAccept, handleReject) {
             { Header: "Order Id", accessor: "id", width: "30%", align: "left" },
             { Header: "Item", accessor: "orderItem", align: "center" },
             { Header: "Date", accessor: "orderDate", align: "center" },
+            { Header: "Quantity", accessor: "orderQuantity", align: "center" },
+            { Header: "Amount", accessor: "orderAmount", align: "center" },
             {
                 Header: "Order Status",
                 accessor: "orderStatus",

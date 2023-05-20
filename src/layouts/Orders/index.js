@@ -23,14 +23,17 @@ import { Box, IconButton } from "@mui/material";
 
 // icons
 import { useRejectOrderMutation } from "api/useRejectOrderMutation";
+import { useAcceptOrderMutation } from "api/useAcceptOrderMutation";
 
 function Tables() {
     const { auth } = useAuth();
 
     const [col, setCol] = useState([]);
     const [row, setRow] = useState([]);
-    const { data, isSuccess, isError, error, refetch } =
-        useFetchOrdersQuery(auth.user.pumpOwnerId);
+    const { data, isSuccess, isError, error, refetch } = useFetchOrdersQuery(
+        auth.user.pumpOwnerId
+    );
+
     const {
         data: rejectData,
         isLoading: rejectIsLoading,
@@ -39,6 +42,16 @@ function Tables() {
         error: rejectError,
         mutate: rejectMutate,
     } = useRejectOrderMutation();
+
+    const {
+        data: acceptData,
+        isLoading: acceptIsLoading,
+        isSuccess: acceptIsSuccess,
+        isError: acceptIsError,
+        error: acceptError,
+        mutate: acceptMutate,
+    } = useAcceptOrderMutation();
+
     useEffect(() => {
         if (isSuccess) {
             console.log("here");
@@ -58,30 +71,26 @@ function Tables() {
     useEffect(() => {
         if (rejectIsSuccess) {
             console.log("mutation is successful");
-            // Fetch the orders data again by invalidating the query
-            // queryClient.invalidateQueries(["data", auth.user.pumpOwnerId]);
-
             refetch();
-
-            console.log("Invalidate Query Key:", [
-                "data",
-                auth.user.pumpOwnerId,
-            ]);
         }
 
         if (rejectIsError) {
-            console.log(error.response.data);
+            console.log(rejectError.response.data);
         }
     }, [rejectIsSuccess, rejectIsError, rejectData, rejectError]);
+    useEffect(() => {
+        if (acceptIsSuccess) {
+            console.log("mutation is successful");
+            refetch();
+        }
 
-    // const queryClient = useQueryClient();
-
-    // const { mutate } = useMutation(updateOrderStatus, {
-    //     onSuccess: () => {
-    //         queryClient.invalidateQueries(["data", pumpOwnerId]);
+        if (acceptIsError) {
+            console.log(acceptError.response.data);
+        }
+    }, [acceptIsSuccess, acceptIsError, acceptData, acceptError]);
 
     const handleAccept = (orderId) => {
-        console.log(orderId);
+        acceptMutate({ pumpOwnerId: auth.user.pumpOwnerId, orderId: orderId });
     };
 
     const handleReject = (orderId) => {
