@@ -73,14 +73,15 @@ export default function data(data, handleAccept, handleReject) {
                 >
                     {new Date().toLocaleDateString()}{" "}
                 </MDTypography>
-            ),orderQuantity: (
+            )
+            ,orderQuantity: (
                 <MDTypography
-                    component="a"
-                    href="#"
-                    variant="caption"
-                    color="text"
+                component="a"
+                href="#"
+                variant="caption"
+                color="text"
                     fontWeight="medium"
-                >
+                    >
                     {item.item.quantity}
                 </MDTypography>
             ),
@@ -106,6 +107,17 @@ export default function data(data, handleAccept, handleReject) {
                         size="sm"
                     />
                 </MDBox>
+            ),
+            deliveryBoyMob: (
+                <MDTypography
+                    component="a"
+                    href="#"
+                    variant="caption"
+                    color="text"
+                    fontWeight="medium"
+                >
+                    {item.deliveryPartner && item.deliveryPartner.deliveryPartnerMobileNumber}
+                </MDTypography>
             ),
             action: (
                 <Box>
@@ -140,6 +152,11 @@ export default function data(data, handleAccept, handleReject) {
             {
                 Header: "Order Status",
                 accessor: "orderStatus",
+                align: "center",
+            },
+            {
+                Header: "Delivery Boy mob",
+                accessor: "deliveryBoyMob",
                 align: "center",
             },
             { Header: "Action", accessor: "action", align: "center" },
