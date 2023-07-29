@@ -6,7 +6,7 @@
   "license": "MIT",
   "description": "Application for petrol pump owners",
   "engines": {
-    "node": "14 || 15 || 16",
+    "node": "14 || 15 || 16 || 18",
     "npm": ">=6"
   },
   "dependencies": {
